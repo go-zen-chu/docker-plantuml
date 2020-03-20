@@ -16,7 +16,3 @@ build:
 ## update packages of docker image
 update:
 	@./make/update.sh
-
-.PHONY: commit-push
-commit-push:
-	@./make/commit-push.sh

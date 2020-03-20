@@ -9,11 +9,26 @@ jobs:
     name: update image
     runs-on: ubuntu-latest
     steps:
-      - name: update Dockerfile
+      - uses: actions/checkout@v2
+      - name: check package update
         run: make update
-      - name: commit push if updated
-        run: make commit-push
-        env:
-          GIT_USER: ci-bot
-          GIT_EMAIL: ci-bot@test.com
+      - id: check-update
+        name: check if Dockerfile update required
+        run: |
+          if git diff-index --quiet HEAD -- ; then
+            echo "No changes. Abort"
+            echo ::set-output name=update::false
+          else
+            echo "Update detected"
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add --all
+            git commit -m "[GitHub Action] Update automatically"
+            echo ::set-output name=update::true
+          fi
+      - name: push if updated
+        if: steps.check-update.outputs.update == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           
