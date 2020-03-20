@@ -8,7 +8,7 @@ awk '/^[a-zA-Z_0-9%:\\\/-]+:/ {
         helpMessage = substr(lastLine, RSTART + 3, RLENGTH);
      	gsub("\\\\", "", helpCommand);
      	gsub(":+$", "", helpCommand);
-        printf "- \033[34m%s\033[0m:\t%s\n", helpCommand, helpMessage;
+        printf "- \033[34m%s\033[0m: %s\n", helpCommand, helpMessage;
     }
 }
 { lastLine = $0 }' ./Makefile | sort -u
