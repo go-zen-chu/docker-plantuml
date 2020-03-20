@@ -1,0 +1,19 @@
+name: update-image
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '* * * * 0'
+
+jobs:
+  update-image:
+    name: update image
+    runs-on: ubuntu-latest
+    steps:
+      - name: update Dockerfile
+        run: make update
+      - name: commit push if updated
+        run: make commit-push
+        env:
+          GIT_USER: ci-bot
+          GIT_EMAIL: ci-bot@test.com
+          

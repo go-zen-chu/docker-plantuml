@@ -1,0 +1,32 @@
+name: push-image
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  dockerhub-push-commit-hash:
+    name: push image to DockerHub with commit hash tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1.0
+      - uses: mr-smithers-excellent/docker-build-push@v2
+        with:
+          image: amasuda/plantuml-cli
+          registry: hub.docker.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+  dockerhub-push-latest:
+    name: push image to DockerHub with latest tag
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v1.0
+      - uses: mr-smithers-excellent/docker-build-push@v2
+        with:
+          image: amasuda/plantuml-cli
+          tag: latest
+          registry: hub.docker.com
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}

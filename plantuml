@@ -1,0 +1,4 @@
+#!/bin/sh
+
+GRAPHVIZ_DOT="/usr/bin/dot"
+java -jar /usr/local/bin/plantuml.jar "$@"
