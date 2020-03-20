@@ -8,9 +8,10 @@ jobs:
   dockerhub-push-commit-hash:
     name: push image to DockerHub with commit hash tag
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
     steps:
       - name: checkout
-        uses: actions/checkout@v1.0
+        uses: actions/checkout@v2
       - uses: mr-smithers-excellent/docker-build-push@v2
         with:
           image: amasuda/plantuml-cli
@@ -20,9 +21,10 @@ jobs:
   dockerhub-push-latest:
     name: push image to DockerHub with latest tag
     runs-on: ubuntu-latest
+    if: contains(github.event.head_commit.message, '[skip ci]') == false
     steps:
       - name: checkout
-        uses: actions/checkout@v1.0
+        uses: actions/checkout@v2
       - uses: mr-smithers-excellent/docker-build-push@v2
         with:
           image: amasuda/plantuml-cli
