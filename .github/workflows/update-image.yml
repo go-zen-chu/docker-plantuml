@@ -2,6 +2,7 @@ name: update-image
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
+    # https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule
     - cron:  '*/5 * * * *'
 
 jobs:
@@ -16,15 +17,15 @@ jobs:
         name: check if Dockerfile update required
         run: |
           if git diff-index --quiet HEAD -- ; then
-            echo "No changes. Abort"
-            echo ::set-output name=update::false
-          else
             echo "Update detected"
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add --all
             git commit -m "[GitHub Action] Update automatically"
             echo ::set-output name=update::true
+          else
+            echo "No changes. Abort"
+            echo ::set-output name=update::false
           fi
       - name: push if updated
         if: steps.check-update.outputs.update == 'true'
