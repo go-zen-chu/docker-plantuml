@@ -15,9 +15,9 @@ You can easily use plantuml command like below.
 
 ```bash
 docker pull amasuda/plantuml-cli:latest
-docker run -v <your plantuml file path>:/tmp amasuda/plantuml-cli:latest plantuml /tmp/<your plantuml file name>
+docker run --rm -v <your plantuml file path>:/tmp amasuda/plantuml-cli:latest plantuml /tmp/<your plantuml file name>
 # example
-# docker run -v ${PWD}/test.puml:/tmp amasuda/plantuml-cli:latest plantuml /tmp/test.puml
+# docker run --rm -v ${PWD}/test.puml:/tmp amasuda/plantuml-cli:latest plantuml /tmp/test.puml
 # this will generate test.png on ${PWD}
 ```
 
