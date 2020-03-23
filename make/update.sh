@@ -27,7 +27,7 @@ if ! curl --head -s --fail ${next_plantuml_patch_url} ; then
 fi
 echo "plantuml : ${current_plantuml_version} -> ${next_plantuml_patch_version}"
 
-sed -i '' -E "s/ARG JDK_VERSION.*/ARG JDK_VERSION=\"${next_jdk_version}\"/" ./Dockerfile
-sed -i '' -E "s/ARG PLANTUML_VERSION.*/ARG PLANTUML_VERSION=\"${next_plantuml_patch_version}\"/" ./Dockerfile
+sed -E "s/ARG JDK_VERSION.*/ARG JDK_VERSION=\"${next_jdk_version}\"/" ./Dockerfile > ./Dockerfile.new && mv ./Dockerfile.new ./Dockerfile
+sed -E "s/ARG PLANTUML_VERSION.*/ARG PLANTUML_VERSION=\"${next_plantuml_patch_version}\"/" ./Dockerfile > ./Dockerfile.new && mv ./Dockerfile.new ./Dockerfile
 
 exit 0
