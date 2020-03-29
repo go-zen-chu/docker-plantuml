@@ -4,6 +4,8 @@ on:
     # * is a special character in YAML so you have to quote this string
     # https://help.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events-schedule
     - cron:  '10 9 * * *'
+env:
+  TZ: "Asia/Tokyo"
 
 jobs:
   update-image:
@@ -16,8 +18,8 @@ jobs:
       - id: check-update
         name: check if Dockerfile update required
         run: |
-          if git diff-index --quiet HEAD -- ; then
-            echo "Update detected"
+          if git diff-index --quiet HEAD --; then
+            echo "Update detected: git diff exit code $?"
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add --all
@@ -32,4 +34,3 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          
