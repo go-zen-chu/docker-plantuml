@@ -19,15 +19,15 @@ jobs:
         name: check if Dockerfile update required
         run: |
           if git diff-index --quiet HEAD --; then
-            echo "Update detected: git diff exit code $?"
+            echo "git diff exit code $?. No changes"
+            echo ::set-output name=update::false
+          else
+            echo "git diff exit code $?. Update detected"
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git add --all
             git commit -m "[GitHub Action] Update automatically"
             echo ::set-output name=update::true
-          else
-            echo "No changes. Abort"
-            echo ::set-output name=update::false
           fi
       - name: push if updated
         if: steps.check-update.outputs.update == 'true'
