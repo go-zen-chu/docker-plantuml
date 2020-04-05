@@ -18,11 +18,12 @@ jobs:
       - id: check-update
         name: check if Dockerfile update required
         run: |
-          if git diff-index --quiet HEAD --; then
+          if git diff-index HEAD; then
             echo "git diff exit code $?. No changes"
             echo ::set-output name=update::false
           else
             echo "git diff exit code $?. Update detected"
+            set -ex
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
             git diff
