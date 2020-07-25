@@ -36,4 +36,6 @@ jobs:
         if: steps.check-update.outputs.update == 'true'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # you cannot use secrets.GITHUB when you want to trigger other workflow
+          # https://docs.github.com/ja/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
+          github_token: ${{ secrets.PAT }}
