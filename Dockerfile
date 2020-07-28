@@ -1,7 +1,7 @@
 ARG JDK_VERSION="15"
 FROM openjdk:${JDK_VERSION}-jdk-alpine
 
-ARG PLANTUML_VERSION="1.2020.14"
+ARG PLANTUML_VERSION="1.2020.15"
 COPY ./plantuml /usr/local/bin/plantuml
 
 # TIPS: plantuml requires at least one font
