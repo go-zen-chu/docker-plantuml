@@ -7,8 +7,8 @@ source ./make/version_util.sh
 current_jdk_version=$(get_library_ver_dockerfile "JDK")
 next_jdk_version=$(increment_simple_version "${current_jdk_version}")
 ## check new image tag exists
-next_jdk_tag_url="https://registry.hub.docker.com/v2/repositories/openjdk/openjdk/tags/${next_jdk_version}-jdk-alpine"
-if curl -s -H "Accept: application/json" "${next_jdk_tag_url}" | grep "errinfo" >/dev/null ; then
+next_jdk_tag_url="https://registry.hub.docker.com/v2/repositories/amd64/openjdk/tags/${next_jdk_version}-jdk-alpine"
+if curl -s -H "Accept: application/json" "${next_jdk_tag_url}" | grep -v "errinfo" >/dev/null ; then
     echo "found new JDK version: ${next_jdk_version}"
 else
     echo "could not find new JDK version"
