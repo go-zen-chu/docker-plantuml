@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          # actions/checkout holds GITHUB_TOKEN for run authenticated git command
+          # https://github.com/actions/checkout#checkout-v2
+          # remove this for triggering other workflow
+          persist-credentials: false
       - name: check package update
         run: make update
       - id: check-update
@@ -23,8 +28,11 @@ jobs:
             echo ::set-output name=update::false
           else
             echo "git diff exit code $?. Update detected"
+            set -ex
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
+            git diff
+            git diff-index HEAD
             git add --all
             git commit -m "[GitHub Action] Update automatically"
             echo ::set-output name=update::true
@@ -33,4 +41,6 @@ jobs:
         if: steps.check-update.outputs.update == 'true'
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # you cannot use secrets.GITHUB_TOKEN when you want to trigger other workflow
+          # https://docs.github.com/ja/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
+          github_token: ${{ secrets.PAT }}

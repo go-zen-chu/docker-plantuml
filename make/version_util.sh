@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # script from : https://github.com/go-zen-chu/version_util
-
 set -u
 
 # get_library_ver_dockerfile parse library version from Dockerfile
